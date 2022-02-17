@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel\Http;
 
-
 use Psr\Http\Message\ResponseInterface;
 
 class Response
@@ -29,6 +28,6 @@ class Response
 
     public function hasErrors(): bool
     {
-        return !($this->code >= 200 and $this->code < 300);
+        return ! ($this->code >= 200 and $this->code < 300);
     }
 }

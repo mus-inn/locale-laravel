@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel;
 
-
 use Localizy\LocalizyLaravel\Http\ApiClient;
 use Localizy\LocalizyLaravel\Http\Response;
 

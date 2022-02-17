@@ -14,7 +14,7 @@ class LocalizyLaravelServiceProvider extends PackageServiceProvider
             ->name('localizy-laravel')
             ->hasConfigFile('localizy')
             ->hasCommands([
-                SetupCommand::class
+                SetupCommand::class,
             ]);
 
         $this->app->singleton(Localizy::class, function () {

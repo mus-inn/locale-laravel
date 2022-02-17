@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel\Http;
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -16,7 +15,7 @@ class ApiClient
             'base_uri' => $baseUrl . '/',
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $key
+                'Authorization' => 'Bearer ' . $key,
             ],
         ]);
     }
