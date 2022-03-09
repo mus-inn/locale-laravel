@@ -19,6 +19,7 @@
         "php": "^7.4|^8.0",
         "guzzlehttp/guzzle": "^7.4",
         "illuminate/contracts": "^9.0",
+        "illuminate/filesystem": "^9.0",
         "spatie/laravel-package-tools": "^1.9.2"
     },
     "require-dev": {
@@ -59,11 +60,8 @@
     "extra": {
         "laravel": {
             "providers": [
-              "LocalizyServiceProvider"
-            ],
-            "aliases": {
-                "LocalizyLaravel": "Localizy\\LocalizyLaravel\\Facades\\LocalizyLaravel"
-            }
+                "Localizy\\LocalizyLaravel\\LocalizyServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",

@@ -3,10 +3,11 @@
 namespace Localizy\LocalizyLaravel;
 
 use Localizy\LocalizyLaravel\Commands\SetupCommand;
+use Localizy\LocalizyLaravel\Commands\SyncCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class LocalizyLaravelServiceProvider extends PackageServiceProvider
+class LocalizyServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -15,6 +16,7 @@ class LocalizyLaravelServiceProvider extends PackageServiceProvider
             ->hasConfigFile('localizy')
             ->hasCommands([
                 SetupCommand::class,
+                SyncCommand::class,
             ]);
 
         $this->app->singleton(Localizy::class, function () {

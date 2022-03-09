@@ -2,20 +2,31 @@
 
 namespace Localizy\LocalizyLaravel;
 
-use Localizy\LocalizyLaravel\Http\ApiClient;
-use Localizy\LocalizyLaravel\Http\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class Localizy
 {
-    protected ApiClient $apiClient;
+    protected string $baseUrl;
+    protected string $apiKey;
 
     public function __construct(string $baseUrl, string $key)
     {
-        $this->apiClient = new ApiClient($baseUrl, $key);
+        $this->baseUrl = $baseUrl;
+        $this->apiKey = $key;
     }
 
-    public function makeSetupRequest(): Response
+    /**
+     * @param array $translation
+     * @return void
+     * @throws \Illuminate\Http\Client\RequestException
+     */
+    public function makeSetupRequest(array $translation): void
     {
-        return $this->apiClient->patch('setup');
+        Http::acceptJson()
+            ->withToken($this->apiKey)
+            ->baseUrl($this->baseUrl)
+            ->patch('setup', ['translations' => $translation])
+            ->throw();
     }
 }
