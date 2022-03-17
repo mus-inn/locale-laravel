@@ -48,6 +48,7 @@ class Localizy
                 $row['phpData']
             );
         });
+
         return 'TODO Create translations files';
 //        dd($translations);
     }
