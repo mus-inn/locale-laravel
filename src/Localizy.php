@@ -3,6 +3,7 @@
 namespace Localizy\LocalizyLaravel;
 
 use Illuminate\Support\Facades\Http;
+use Localizy\LocalizyLaravel\DTOs\ApiTranslationsDto;
 
 class Localizy
 {
@@ -17,15 +18,37 @@ class Localizy
 
     /**
      * @param array $translation
-     * @return void
+     * @return string|null
      * @throws \Illuminate\Http\Client\RequestException
      */
-    public function makeSetupRequest(array $translation): void
+    public function makeSetupRequest(array $translation): ?string
     {
-        Http::acceptJson()
+        return Http::acceptJson()
             ->withToken($this->apiKey)
             ->baseUrl($this->baseUrl)
             ->patch('setup', ['translations' => $translation])
+            ->throw()
+            ->json('message');
+    }
+
+    public function makeDownloadRequest(): ?string
+    {
+        $response = Http::acceptJson()
+            ->withToken($this->apiKey)
+            ->baseUrl($this->baseUrl)
+            ->get('download')
             ->throw();
+
+        $sourceLocale = $response->json('source_locale');
+
+        $translations = collect($response->json('translations'))->map(function ($row) {
+            return new ApiTranslationsDto(
+                $row['locale'],
+                $row['jsonData'],
+                $row['phpData']
+            );
+        });
+        return 'TODO Create translations files';
+//        dd($translations);
     }
 }

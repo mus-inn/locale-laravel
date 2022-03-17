@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Translation\Translator;
+use Localizy\LocalizyLaravel\DTOs\ApiTranslationsDto;
 use Localizy\LocalizyLaravel\Localizy;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -18,23 +19,25 @@ class SetupCommand extends Command
 
     public function handle(Filesystem $filesystem, Translator $translator, Localizy $localizy): int
     {
-        if (! $this->confirm('Descripció comanda + confirmació')) {
+        if (!$this->confirm('Descripció comanda + confirmació')) {
             return self::SUCCESS;
         }
 
         $translations = [];
         foreach ($this->getAllLocales($filesystem) as $locale) {
-            $translations[] = (object)[
-                'locale' => $locale,
-                'jsonData' => $this->getJsonTranslations($filesystem, $locale),
-                'phpData' => $this->getPhpTranslations($filesystem, $translator, $locale),
-            ];
+            $translations[] = new ApiTranslationsDto(
+                $locale,
+                $this->getJsonTranslations($filesystem, $locale),
+                $this->getPhpTranslations($filesystem, $translator, $locale)
+            );
         }
 
         try {
-            $localizy->makeSetupRequest($translations);
+            $message = $localizy->makeSetupRequest($translations);
+            $this->info($message);
 
-            $this->info('OK');
+            $message = $localizy->makeDownloadRequest();
+            $this->info($message);
 
             return self::SUCCESS;
         } catch (RequestException $exception) {
@@ -48,7 +51,7 @@ class SetupCommand extends Command
     {
         $jsonPath = lang_path() . "/{$locale}.json";
 
-        if (! $filesystem->exists($jsonPath)) {
+        if (!$filesystem->exists($jsonPath)) {
             return [];
         }
 
@@ -59,12 +62,12 @@ class SetupCommand extends Command
     {
         $localePath = lang_path($locale);
 
-        if (! $filesystem->exists($localePath)) {
+        if (!$filesystem->exists($localePath)) {
             return [];
         }
 
         return collect($filesystem->allFiles($localePath))
-            ->filter(fn ($file) => $file->getExtension() === 'php')
+            ->filter(fn($file) => $file->getExtension() === 'php')
             ->mapWithKeys(function (SplFileInfo $file) use ($translator, $locale) {
 
                 // Generate group key
@@ -86,11 +89,11 @@ class SetupCommand extends Command
     {
         $jsonLocales = collect(
             $filesystem->glob(lang_path('*.json'))
-        )->map(fn (string $path) => $filesystem->name($path));
+        )->map(fn(string $path) => $filesystem->name($path));
 
         $phpLocales = collect(
             $filesystem->directories(lang_path())
-        )->map(fn ($path) => $filesystem->name($path));
+        )->map(fn($path) => $filesystem->name($path));
 
         return $phpLocales->merge($jsonLocales)->unique()->toArray();
     }
