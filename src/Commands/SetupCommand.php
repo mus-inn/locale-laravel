@@ -19,7 +19,7 @@ class SetupCommand extends Command
 
     public function handle(Filesystem $filesystem, Translator $translator, Localizy $localizy): int
     {
-        if (!$this->confirm('Descripció comanda + confirmació')) {
+        if (! $this->confirm('Descripció comanda + confirmació')) {
             return self::SUCCESS;
         }
 
@@ -51,7 +51,7 @@ class SetupCommand extends Command
     {
         $jsonPath = lang_path("{$locale}.json");
 
-        if (!$filesystem->exists($jsonPath)) {
+        if (! $filesystem->exists($jsonPath)) {
             return [];
         }
 
@@ -62,12 +62,12 @@ class SetupCommand extends Command
     {
         $localePath = lang_path($locale);
 
-        if (!$filesystem->exists($localePath)) {
+        if (! $filesystem->exists($localePath)) {
             return [];
         }
 
         return collect($filesystem->allFiles($localePath))
-            ->filter(fn($file) => $file->getExtension() === 'php')
+            ->filter(fn ($file) => $file->getExtension() === 'php')
             ->mapWithKeys(function (SplFileInfo $file) use ($translator, $locale) {
 
                 // Generate group key
@@ -89,11 +89,11 @@ class SetupCommand extends Command
     {
         $jsonLocales = collect(
             $filesystem->glob(lang_path('*.json'))
-        )->map(fn(string $path) => $filesystem->name($path));
+        )->map(fn (string $path) => $filesystem->name($path));
 
         $phpLocales = collect(
             $filesystem->directories(lang_path())
-        )->map(fn($path) => $filesystem->name($path));
+        )->map(fn ($path) => $filesystem->name($path));
 
         return $phpLocales->merge($jsonLocales)->unique()->toArray();
     }

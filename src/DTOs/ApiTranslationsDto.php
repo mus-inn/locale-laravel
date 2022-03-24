@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel\DTOs;
 
-
 class ApiTranslationsDto
 {
     public string $locale;
