@@ -36,8 +36,8 @@ class SetupCommand extends Command
             $message = $localizy->makeSetupRequest($translations);
             $this->info($message);
 
-            $message = $localizy->makeDownloadRequest();
-            $this->info($message);
+            $localizy->makeDownloadRequest();
+            $this->info('Translation files generated');
 
             return self::SUCCESS;
         } catch (RequestException $exception) {
@@ -49,7 +49,7 @@ class SetupCommand extends Command
 
     private function getJsonTranslations(Filesystem $filesystem, string $locale): array
     {
-        $jsonPath = lang_path() . "/{$locale}.json";
+        $jsonPath = lang_path("{$locale}.json");
 
         if (!$filesystem->exists($jsonPath)) {
             return [];
