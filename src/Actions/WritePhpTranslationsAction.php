@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel\Actions;
 
-
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -52,14 +51,15 @@ class WritePhpTranslationsAction
 
     private function prettyVarExport($expression): ?string
     {
-        if (!is_array($expression)) {
+        if (! is_array($expression)) {
             return var_export($expression);
         }
         $export = var_export($expression, true);
         $export = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $export);
         $array = preg_split("/\r\n|\n|\r/", $export);
-        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [NULL, ']$1', ' => ['], $array);
+        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [null, ']$1', ' => ['], $array);
         $export = join(PHP_EOL, array_filter(["["] + $array));
+
         return $export;
     }
 
@@ -76,6 +76,7 @@ class WritePhpTranslationsAction
     | Changes will be lost.
     |
     */";
+
         return str_replace('return [', 'return [' . PHP_EOL . $comment . PHP_EOL, $fileContent);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel\Actions;
 
-
 use Illuminate\Filesystem\Filesystem;
 use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_UNICODE;
