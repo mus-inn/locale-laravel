@@ -19,6 +19,6 @@ class WriteJsonTranslationsAction
     {
         $filePath = lang_path("{$locale}.json");
         $fileContent = json_encode($keyValueTranslations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        $this->filesystem->put($filePath, $fileContent);
+        $this->filesystem->put($filePath, ($fileContent) ?: '');
     }
 }

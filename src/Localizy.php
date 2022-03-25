@@ -3,8 +3,6 @@
 namespace Localizy\LocalizyLaravel;
 
 use Illuminate\Support\Facades\Http;
-use Localizy\LocalizyLaravel\Actions\WriteJsonTranslationsAction;
-use Localizy\LocalizyLaravel\Actions\WritePhpTranslationsAction;
 use Localizy\LocalizyLaravel\DTOs\ApiTranslationsDto;
 
 class Localizy
@@ -19,21 +17,64 @@ class Localizy
     }
 
     /**
-     * @param array $translation
      * @return string
      * @throws \Illuminate\Http\Client\RequestException
      */
-    public function makeSetupRequest(array $translation): string
+    public function fetchSourceLocale(): string
     {
         return Http::acceptJson()
             ->withToken($this->apiKey)
             ->baseUrl($this->baseUrl)
-            ->patch('setup', ['translations' => $translation])
+            ->get('source-locale')
+            ->throw()
+            ->json('source_locale');
+    }
+
+    /**
+     * @param array $translations
+     * @return string
+     * @throws \Illuminate\Http\Client\RequestException
+     */
+    public function makeSetupRequest(array $translations): string
+    {
+        return Http::acceptJson()
+            ->withToken($this->apiKey)
+            ->baseUrl($this->baseUrl)
+            ->patch('setup', ['translations' => $translations])
             ->throw()
             ->json('message');
     }
 
-    public function makeDownloadRequest()
+    public function fetchChanges(ApiTranslationsDto $translations): array
+    {
+        $aux = Http::acceptJson()
+            ->withToken($this->apiKey)
+            ->baseUrl($this->baseUrl)
+            ->patch('changes', ['translations' => $translations])
+            ->throw();
+        dump($aux->json());
+        return $aux->json();
+    }
+
+    /**
+     * @param ApiTranslationsDto $translations
+     * @return void
+     * @throws \Illuminate\Http\Client\RequestException
+     */
+    public function makeUploadRequest(ApiTranslationsDto $translations): void
+    {
+        Http::acceptJson()
+            ->withToken($this->apiKey)
+            ->baseUrl($this->baseUrl)
+            ->patch('upload', ['translations' => $translations])
+            ->throw();
+    }
+
+    /**
+     * @return object
+     * @throws \Illuminate\Http\Client\RequestException
+     */
+    public function makeDownloadRequest(): object
     {
         $response = Http::acceptJson()
             ->withToken($this->apiKey)
@@ -41,20 +82,19 @@ class Localizy
             ->get('download')
             ->throw();
 
-        $sourceLocale = $response->json('source_locale');
+        $translations = collect($response->json('translations'))
+            ->map(function (array $row) {
+                return new ApiTranslationsDto(
+                    $row['locale'],
+                    $row['jsonData'],
+                    $row['phpData']
+                );
+            });
 
-        $translations = collect($response->json('translations'))->map(function ($row) {
-            return new ApiTranslationsDto(
-                $row['locale'],
-                $row['jsonData'],
-                $row['phpData']
-            );
-        });
-
-        /** @var ApiTranslationsDto $localizedTranslations */
-        foreach ($translations as $localizedTranslations) {
-            app(WriteJsonTranslationsAction::class)($localizedTranslations->locale, $localizedTranslations->jsonData);
-            app(WritePhpTranslationsAction::class)($localizedTranslations->locale, $localizedTranslations->phpData, $sourceLocale);
-        }
+        return (object)[
+            'message' => $response->json('message'),
+            'source_locale' => $response->json('source_locale'),
+            'translations' => $translations,
+        ];
     }
 }

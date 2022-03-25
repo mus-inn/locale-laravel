@@ -49,18 +49,14 @@ class WritePhpTranslationsAction
             });
     }
 
-    private function prettyVarExport($expression): ?string
+    private function prettyVarExport(array $expression): string
     {
-        if (! is_array($expression)) {
-            return var_export($expression);
-        }
-        $export = var_export($expression, true);
-        $export = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $export);
-        $array = preg_split("/\r\n|\n|\r/", $export);
-        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [null, ']$1', ' => ['], $array);
-        $export = join(PHP_EOL, array_filter(["["] + $array));
-
-        return $export;
+        $output = var_export($expression, true);
+        $output = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $output);
+        $array = preg_split("/\r\n|\n|\r/", ($output) ?: '');
+        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [null, ']$1', ' => ['], ($array) ?: []);
+        $array[0] = '[';
+        return join(PHP_EOL, array_filter($array));
     }
 
     private function appendWarningComment(string $fileContent): string
