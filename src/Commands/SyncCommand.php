@@ -19,9 +19,8 @@ class SyncCommand extends Command
         Localizy $localizy,
         GetTranslationsDtoAction $getTranslationsDtoAction,
         WriteTranslationsAction $writeTranslationsAction
-    ): int
-    {
-        if (!$this->confirm('Descripció comanda + confirmació')) {
+    ): int {
+        if (! $this->confirm('Descripció comanda + confirmació')) {
             return self::SUCCESS;
         }
 

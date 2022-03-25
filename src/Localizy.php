@@ -53,6 +53,7 @@ class Localizy
             ->patch('changes', ['translations' => $translations])
             ->throw();
         dump($aux->json());
+
         return $aux->json();
     }
 

@@ -56,6 +56,7 @@ class WritePhpTranslationsAction
         $array = preg_split("/\r\n|\n|\r/", ($output) ?: '');
         $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [null, ']$1', ' => ['], ($array) ?: []);
         $array[0] = '[';
+
         return join(PHP_EOL, array_filter($array));
     }
 

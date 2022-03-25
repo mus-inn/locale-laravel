@@ -21,9 +21,8 @@ class SetupCommand extends Command
         Filesystem $filesystem,
         GetTranslationsDtoAction $getTranslationsDtoAction,
         WriteTranslationsAction $writeTranslationsAction
-    ): int
-    {
-        if (!$this->confirm('Descripció comanda + confirmació')) {
+    ): int {
+        if (! $this->confirm('Descripció comanda + confirmació')) {
             return self::SUCCESS;
         }
 
@@ -57,11 +56,11 @@ class SetupCommand extends Command
     {
         $jsonLocales = collect(
             $filesystem->glob(lang_path('*.json'))
-        )->map(fn(string $path) => $filesystem->name($path));
+        )->map(fn (string $path) => $filesystem->name($path));
 
         $phpLocales = collect(
             $filesystem->directories(lang_path())
-        )->map(fn($path) => $filesystem->name($path));
+        )->map(fn ($path) => $filesystem->name($path));
 
         return $phpLocales->merge($jsonLocales)->unique()->toArray();
     }

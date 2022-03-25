@@ -22,12 +22,12 @@ class GetPhpTranslationsAction
     {
         $localePath = lang_path($locale);
 
-        if (!$this->filesystem->exists($localePath)) {
+        if (! $this->filesystem->exists($localePath)) {
             return [];
         }
 
         return collect($this->filesystem->allFiles($localePath))
-            ->filter(fn($file) => $file->getExtension() === 'php')
+            ->filter(fn ($file) => $file->getExtension() === 'php')
             ->mapWithKeys(function (SplFileInfo $file) use ($locale) {
 
                 // Generate group key

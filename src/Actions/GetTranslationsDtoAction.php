@@ -12,8 +12,7 @@ class GetTranslationsDtoAction
     public function __construct(
         GetPhpTranslationsAction $getPhpTranslationsAction,
         GetJsonTranslationsAction $getJsonTranslationsAction
-    )
-    {
+    ) {
         $this->getPhpTranslationsAction = $getPhpTranslationsAction;
         $this->getJsonTranslationsAction = $getJsonTranslationsAction;
     }
