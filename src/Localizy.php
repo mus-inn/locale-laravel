@@ -2,6 +2,9 @@
 
 namespace Localizy\LocalizyLaravel;
 
+use Carbon\Carbon;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Localizy\LocalizyLaravel\DTOs\ApiTranslationsDto;
 
@@ -9,16 +12,38 @@ class Localizy
 {
     protected string $baseUrl;
     protected string $apiKey;
+    private Filesystem $filesystem;
 
-    public function __construct(string $baseUrl, string $key)
+    public function __construct(Filesystem $filesystem, string $baseUrl, string $key)
     {
         $this->baseUrl = $baseUrl;
         $this->apiKey = $key;
+        $this->filesystem = $filesystem;
+    }
+
+    private function metaDataFilePath(): string
+    {
+        return lang_path('.uselocale.com');
+    }
+
+    private function getLastSyncTimestamp(): int
+    {
+        return ($this->filesystem->exists($this->metaDataFilePath()))
+            ? $this->filesystem->get($this->metaDataFilePath())
+            : 0;
+    }
+
+    public function touchTimestamp(): void
+    {
+        $this->filesystem->put(
+            $this->metaDataFilePath(),
+            Carbon::now()->timestamp
+        );
     }
 
     /**
      * @return string
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function fetchSourceLocale(): string
     {
@@ -33,7 +58,7 @@ class Localizy
     /**
      * @param array $translations
      * @return string
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function makeSetupRequest(array $translations): string
     {
@@ -45,21 +70,28 @@ class Localizy
             ->json('message');
     }
 
-    public function fetchChanges(ApiTranslationsDto $translations): array
+    /**
+     * @param ApiTranslationsDto $translations
+     * @return array
+     * @throws RequestException
+     */
+    public function checkNewTranslations(ApiTranslationsDto $translations): array
     {
-        $aux = Http::acceptJson()
+        return Http::acceptJson()
             ->withToken($this->apiKey)
             ->baseUrl($this->baseUrl)
-            ->patch('changes', ['translations' => $translations])
-            ->throw();
-        dump($aux->json());
-        return $aux->json();
+            ->patch('changes', [
+                'translations' => $translations,
+                'timestamp' => $this->getLastSyncTimestamp()
+            ])
+            ->throw()
+            ->json();
     }
 
     /**
      * @param ApiTranslationsDto $translations
      * @return void
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function makeUploadRequest(ApiTranslationsDto $translations): void
     {
@@ -72,7 +104,7 @@ class Localizy
 
     /**
      * @return object
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function makeDownloadRequest(): object
     {

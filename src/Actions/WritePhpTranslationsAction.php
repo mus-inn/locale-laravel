@@ -34,7 +34,7 @@ class WritePhpTranslationsAction
                 $relativeDirectory = pathinfo($filePath, PATHINFO_DIRNAME);
 
                 // Ensure Directory Exists
-                $absoluteDirectory = lang_path("{$locale}/{$relativeDirectory}");
+                $absoluteDirectory = lang_path($locale . DIRECTORY_SEPARATOR . $relativeDirectory);
                 $this->filesystem->ensureDirectoryExists($absoluteDirectory);
 
                 // Generate file content
@@ -44,7 +44,7 @@ class WritePhpTranslationsAction
                 }
 
                 // Write file
-                $absoluteFilePath = "{$absoluteDirectory}/{$fileName}.php";
+                $absoluteFilePath = $absoluteDirectory . DIRECTORY_SEPARATOR . $fileName . '.php';
                 $this->filesystem->put($absoluteFilePath, $fileContent);
             });
     }

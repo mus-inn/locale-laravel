@@ -33,7 +33,7 @@ class GetPhpTranslationsAction
                 // Generate group key
                 $group = collect([
                     $file->getRelativePath(), $file->getFilenameWithoutExtension(),
-                ])->filter()->implode('/');
+                ])->filter()->implode(DIRECTORY_SEPARATOR);
 
                 // Convert array  file content to dot notation
                 $phpTranslations = Arr::dot([

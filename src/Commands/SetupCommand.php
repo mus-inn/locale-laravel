@@ -43,7 +43,9 @@ class SetupCommand extends Command
                 ($writeTranslationsAction)($translationDto, $response->source_locale);
             }
 
-            $this->line($response->message);
+            $localizy->touchTimestamp();
+
+            $this->info($response->message);
 
             return self::SUCCESS;
         } catch (RequestException $exception) {
