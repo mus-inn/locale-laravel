@@ -23,7 +23,7 @@ class SyncCommand extends Command
         DiffTranslationsCountAction $diffTranslationsCountAction
     ): int
     {
-        if (!$this->confirm('Descripció comanda + confirmació')) {
+        if (! $this->confirm('Descripció comanda + confirmació')) {
             return self::SUCCESS;
         }
 

@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel\Actions;
 
-
 use Localizy\LocalizyLaravel\DTOs\ApiTranslationsDto;
 
 class WriteTranslationsAction
@@ -13,8 +12,7 @@ class WriteTranslationsAction
     public function __construct(
         WriteJsonTranslationsAction $writeJsonTranslationsAction,
         WritePhpTranslationsAction $writePhpTranslationsAction
-    )
-    {
+    ) {
         $this->writeJsonTranslationsAction = $writeJsonTranslationsAction;
         $this->writePhpTranslationsAction = $writePhpTranslationsAction;
     }

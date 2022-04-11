@@ -17,7 +17,7 @@ class GetJsonTranslationsAction
     {
         $jsonPath = lang_path("{$locale}.json");
 
-        if (!$this->filesystem->exists($jsonPath)) {
+        if (! $this->filesystem->exists($jsonPath)) {
             return [];
         }
 
