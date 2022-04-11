@@ -21,8 +21,7 @@ class SyncCommand extends Command
         GetTranslationsDtoAction $getTranslationsDtoAction,
         WriteTranslationsAction $writeTranslationsAction,
         DiffTranslationsCountAction $diffTranslationsCountAction
-    ): int
-    {
+    ): int {
         if (! $this->confirm('Descripció comanda + confirmació')) {
             return self::SUCCESS;
         }
@@ -49,7 +48,7 @@ class SyncCommand extends Command
                 ? 'Do you want to proceed and overwrite these keys?'
                 : 'Do you want to proceed?';
 
-            if (!$this->confirm($confirmationMessage)) {
+            if (! $this->confirm($confirmationMessage)) {
                 return self::SUCCESS;
             }
 

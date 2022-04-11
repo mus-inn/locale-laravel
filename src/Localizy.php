@@ -82,7 +82,7 @@ class Localizy
             ->baseUrl($this->baseUrl)
             ->patch('changes', [
                 'translations' => $translations,
-                'timestamp' => $this->getLastSyncTimestamp()
+                'timestamp' => $this->getLastSyncTimestamp(),
             ])
             ->throw()
             ->json();

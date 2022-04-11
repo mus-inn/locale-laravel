@@ -2,7 +2,6 @@
 
 namespace Localizy\LocalizyLaravel\Actions;
 
-
 use Localizy\LocalizyLaravel\DTOs\ApiTranslationsDto;
 
 class DiffTranslationsCountAction
