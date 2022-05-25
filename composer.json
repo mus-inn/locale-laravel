@@ -1,6 +1,6 @@
 {
     "name": "uselocale/locale-laravel",
-    "description": "This is my package locale-laravel",
+    "description": "Manage translations with Locale and smoothly synchronize them with your project using our simple package commands.",
     "keywords": [
         "uselocale",
         "localization",
