@@ -13,5 +13,5 @@ dataset('apiTranslationDto', [
             'norf/fubar.passport' => 'spark',
             'quux.lorem' => 'forge',
         ]
-    )
+    ),
 ]);
