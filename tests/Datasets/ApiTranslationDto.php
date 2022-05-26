@@ -2,18 +2,16 @@
 
 use UseLocale\LocaleLaravel\DTOs\ApiTranslationsDto;
 
-dataset('apiTranslationDto', function () {
-    yield function () {
-        return new ApiTranslationsDto(
-            'ca',
-            [
-                'foo' => 'fubar',
-                'breeze' => 'world',
-            ],
-            [
-                'norf/fubar.passport' => 'spark',
-                'quux.lorem' => 'forge',
-            ]
-        );
-    };
-});
+dataset('apiTranslationDto', [
+    new ApiTranslationsDto(
+        'ca',
+        [
+            'foo' => 'fubar',
+            'breeze' => 'world',
+        ],
+        [
+            'norf/fubar.passport' => 'spark',
+            'quux.lorem' => 'forge',
+        ]
+    ),
+]);
