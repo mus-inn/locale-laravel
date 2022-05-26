@@ -9,11 +9,9 @@ test('dto have got translations', function () {
 
     expect($apiTranslationsDto)
         ->toBeInstanceOf(ApiTranslationsDto::class)
-        ->toHaveProperties([
-            'locale',
-            'jsonData',
-            'phpData',
-        ]);
+        ->toHaveProperty('locale')
+        ->toHaveProperty('jsonData')
+        ->toHaveProperty('phpData');
 
     expect($apiTranslationsDto->locale)->toBe('en');
 
@@ -33,11 +31,9 @@ test("dto havent got translations", function () {
 
     expect($apiTranslationsDto)
         ->toBeInstanceOf(ApiTranslationsDto::class)
-        ->toHaveProperties([
-            'locale',
-            'jsonData',
-            'phpData',
-        ]);
+        ->toHaveProperty('locale')
+        ->toHaveProperty('jsonData')
+        ->toHaveProperty('phpData');
 
     expect($apiTranslationsDto->locale)->toBe('missingLocale');
 
