@@ -2,7 +2,6 @@
 
 use UseLocale\LocaleLaravel\DTOs\ApiTranslationsDto;
 use UseLocale\LocaleLaravel\Read\GetTranslationsDtoAction;
-use UseLocale\LocaleLaravel\Read\ScannerService;
 
 test('dto structure is correct', function () {
     /** @var ApiTranslationsDto $apiTranslationsDto */
