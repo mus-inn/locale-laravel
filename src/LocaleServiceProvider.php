@@ -22,7 +22,7 @@ class LocaleServiceProvider extends PackageServiceProvider
         $this->app->singleton(Locale::class, function () {
             return new Locale(
                 resolve(Filesystem::class),
-                config('services.locale.base_url', 'https://app.uselocale.com/api/v1'),
+                config('services.locale.base_url', 'https://app.uselocale.com/api/v2'),
                 config('services.locale.key') ?? '',
             );
         });

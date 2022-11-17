@@ -17,10 +17,14 @@ class WriteJsonTranslationsAction
 
     public function __invoke(string $locale, array $keyValueTranslations): void
     {
+        $filePath = lang_path("{$locale}.json");
+
+        $keyValueTranslations = array_filter($keyValueTranslations);
+
         if (empty($keyValueTranslations)) {
+            $this->filesystem->delete($filePath);
             return;
         }
-        $filePath = lang_path("{$locale}.json");
         $fileContent = json_encode($keyValueTranslations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         $this->filesystem->put($filePath, ($fileContent) ?: '');
     }

@@ -12,7 +12,7 @@ it('can writes php files translations', function (ApiTranslationsDto $apiTransla
         __('quux.lorem'),
     ])->toBe(['socialite', 'dolor']);
 
-    resolve(WritePhpTranslationsAction::class)($apiTranslationsDto->locale, $apiTranslationsDto->phpData, 'en');
+    resolve(WritePhpTranslationsAction::class)($apiTranslationsDto->locale, $apiTranslationsDto->phpData);
 
     /** @var Translator $translator */
     $translator = resolve(Translator::class);

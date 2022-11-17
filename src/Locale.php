@@ -22,20 +22,6 @@ class Locale
     }
 
     /**
-     * @return string
-     * @throws RequestException
-     */
-    public function fetchSourceLocale(): string
-    {
-        return Http::acceptJson()
-            ->withToken($this->apiKey)
-            ->baseUrl($this->baseUrl)
-            ->get('source-locale')
-            ->throw()
-            ->json('source_locale');
-    }
-
-    /**
      * @param array $translations
      * @return string
      * @throws RequestException
@@ -51,11 +37,11 @@ class Locale
     }
 
     /**
-     * @param ApiTranslationsDto $translations
+     * @param array<ApiTranslationsDto> $translations
      * @return array
      * @throws RequestException
      */
-    public function checkNewTranslations(ApiTranslationsDto $translations): array
+    public function checkSyncTranslationsAction(array $translations): array
     {
         return Http::acceptJson()
             ->withToken($this->apiKey)
@@ -70,16 +56,18 @@ class Locale
     }
 
     /**
-     * @param ApiTranslationsDto $translations
+     * @param array<ApiTranslationsDto> $translations
+     * @param bool $purge
      * @return void
      * @throws RequestException
      */
-    public function makeUploadRequest(ApiTranslationsDto $translations): void
+    public function makeUploadRequest(array $translations, bool $purge): void
     {
         Http::acceptJson()
             ->withToken($this->apiKey)
             ->baseUrl($this->baseUrl)
             ->patch('upload', [
+                'purge' => $purge,
                 'translations' => $translations,
                 'timestamp' => $this->metadataManager->getLastSyncTimestamp(),
             ])
@@ -107,17 +95,12 @@ class Locale
                 );
             });
 
-        $sourceLocale = $response->json('source_locale');
-
         $this->metadataManager->touchTimestamp();
 
-        $this->metadataManager->updateSnapshot(
-            $translations->where('locale', $sourceLocale)->first()
-        );
+        $this->metadataManager->updateSnapshot($translations);
 
         return (object)[
             'message' => $response->json('message'),
-            'source_locale' => $sourceLocale,
             'translations' => $translations,
         ];
     }
