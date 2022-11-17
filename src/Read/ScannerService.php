@@ -82,7 +82,7 @@ class ScannerService
                     //TODO: This can probably be done in the regex, but I couldn't do it.
                     //skip keys which contain namespacing characters, unless they also contain a
                     //space, which makes it JSON.
-                    if (!(Str::contains($key, '::') && Str::contains($key, '.'))
+                    if (! (Str::contains($key, '::') && Str::contains($key, '.'))
                         || Str::contains($key, ' ')) {
                         $jsonKeys[] = $key;
                     }

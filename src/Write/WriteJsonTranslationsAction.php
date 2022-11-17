@@ -3,6 +3,7 @@
 namespace UseLocale\LocaleLaravel\Write;
 
 use Illuminate\Filesystem\Filesystem;
+
 use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_UNICODE;
 
@@ -23,6 +24,7 @@ class WriteJsonTranslationsAction
 
         if (empty($keyValueTranslations)) {
             $this->filesystem->delete($filePath);
+
             return;
         }
         $fileContent = json_encode($keyValueTranslations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

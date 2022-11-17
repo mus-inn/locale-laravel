@@ -6,18 +6,12 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Symfony\Component\Finder\SplFileInfo;
 use UseLocale\LocaleLaravel\DTOs\ApiTranslationsDto;
 use UseLocale\LocaleLaravel\Locale;
 use UseLocale\LocaleLaravel\Read\GetAllTranslationsAction;
-use UseLocale\LocaleLaravel\Read\GetTranslationsDtoAction;
 use UseLocale\LocaleLaravel\Support\CalculateTotalChangedTranslationsAction;
 use UseLocale\LocaleLaravel\Write\DeleteEmptyPhpTranslationsFilesAction;
 use UseLocale\LocaleLaravel\Write\WriteTranslationsAction;
-use function UseLocale\LocaleLaravel\Support\Utils\array_undot;
 
 class SyncCommand extends Command
 {
@@ -33,8 +27,7 @@ class SyncCommand extends Command
         WriteTranslationsAction $writeTranslationsAction,
         CalculateTotalChangedTranslationsAction $calculateTotalChangedTranslationsAction,
         DeleteEmptyPhpTranslationsFilesAction $deleteEmptyPhpTranslationsFilesAction
-    ): int
-    {
+    ): int {
         $this->info('Checking translation changes...');
 
         try {
@@ -54,7 +47,7 @@ class SyncCommand extends Command
                 ? 'Do you want to proceed and overwrite these local values? Otherwise review and resolve the conflict manually.'
                 : 'Do you want to proceed uploading new keys and download changes?';
 
-            if (!$this->option('force') and !$this->confirm($confirmationMessage)) {
+            if (! $this->option('force') and ! $this->confirm($confirmationMessage)) {
                 return self::SUCCESS;
             }
 
@@ -66,7 +59,7 @@ class SyncCommand extends Command
                         $this->line("- {$key}");
                     }
                     $confirmationMessage = 'Do you want to proceed and delete permanently these keys?';
-                    if (!$this->option('force') and !$this->confirm($confirmationMessage)) {
+                    if (! $this->option('force') and ! $this->confirm($confirmationMessage)) {
                         return self::SUCCESS;
                     }
                 } else {
@@ -86,7 +79,7 @@ class SyncCommand extends Command
 
             // Write new file translations
             $response->translations->each(
-                fn(ApiTranslationsDto $apiTranslationsDto) => ($writeTranslationsAction)($apiTranslationsDto)
+                fn (ApiTranslationsDto $apiTranslationsDto) => ($writeTranslationsAction)($apiTranslationsDto)
             );
 
             // Delete empty PHP Translations Files

@@ -4,7 +4,6 @@ namespace UseLocale\LocaleLaravel\Support;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use UseLocale\LocaleLaravel\DTOs\ApiTranslationsDto;
 
 class MetadataManager
 {

@@ -25,11 +25,11 @@ class DeleteEmptyPhpTranslationsFilesAction
         $allTranslationsFiles = collect($this->filesystem->allFiles(lang_path()));
 
         $allTranslationsFiles
-            ->filter(fn(SplFileInfo $file) => $file->getExtension() === 'php')
+            ->filter(fn (SplFileInfo $file) => $file->getExtension() === 'php')
             // @phpstan-ignore-next-line
-            ->reject(fn(SplFileInfo $file) => (Str::startsWith($file->getRealPath(), lang_path('vendor'))))
+            ->reject(fn (SplFileInfo $file) => (Str::startsWith($file->getRealPath(), lang_path('vendor'))))
             // @phpstan-ignore-next-line
-            ->reject(fn(SplFileInfo $file) => $absolutePathPhpFilesWithTranslations->contains($file->getRealPath()))
+            ->reject(fn (SplFileInfo $file) => $absolutePathPhpFilesWithTranslations->contains($file->getRealPath()))
             ->each(fn (SplFileInfo $file) => $this->filesystem->delete($file->getRealPath()));
     }
 
@@ -44,6 +44,7 @@ class DeleteEmptyPhpTranslationsFilesAction
                         $relativeDirectory = pathinfo($key, PATHINFO_DIRNAME);
                         $absoluteDirectory = lang_path($apiTranslationsDto->locale . DIRECTORY_SEPARATOR . $relativeDirectory);
                         $absoluteDirectory = rtrim($absoluteDirectory, DIRECTORY_SEPARATOR . '.');
+
                         return $absoluteDirectory . DIRECTORY_SEPARATOR . "{$fileName}.php";
                     })
                     ->values();

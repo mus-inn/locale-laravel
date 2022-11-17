@@ -4,6 +4,7 @@ namespace UseLocale\LocaleLaravel\Write;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+
 use function UseLocale\LocaleLaravel\Support\Utils\array_undot;
 
 class WritePhpTranslationsAction

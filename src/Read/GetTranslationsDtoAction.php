@@ -14,8 +14,7 @@ class GetTranslationsDtoAction
         GetPhpTranslationsAction $getPhpTranslationsAction,
         GetJsonTranslationsAction $getJsonTranslationsAction,
         ScannerService $scannerService
-    )
-    {
+    ) {
         $this->getPhpTranslationsAction = $getPhpTranslationsAction;
         $this->getJsonTranslationsAction = $getJsonTranslationsAction;
         $this->scannerService = $scannerService;
@@ -44,6 +43,6 @@ class GetTranslationsDtoAction
     {
         $diffKeys = array_diff($keysToCheck, $translatedKeys);
 
-        return collect($diffKeys)->mapWithKeys(fn(string $key) => [$key => null])->toArray();
+        return collect($diffKeys)->mapWithKeys(fn (string $key) => [$key => null])->toArray();
     }
 }
