@@ -40,7 +40,7 @@ class SetupCommand extends Command
 
             // Write new file translations
             $response->translations->each(
-                fn (ApiTranslationsDto $apiTranslationsDto) => ($writeTranslationsAction)($apiTranslationsDto, $response->source_locale)
+                fn (ApiTranslationsDto $apiTranslationsDto) => ($writeTranslationsAction)($apiTranslationsDto)
             );
 
             // Display information messages

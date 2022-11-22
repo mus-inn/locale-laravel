@@ -5,6 +5,7 @@ namespace UseLocale\LocaleLaravel\Read;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\Translator;
 use Symfony\Component\Finder\SplFileInfo;
+
 use function UseLocale\LocaleLaravel\Support\Utils\array_dot;
 
 class GetPhpTranslationsAction

@@ -34,6 +34,30 @@ Run this command to upload any new translation keys to Locale and download updat
 
 If there's any conflict during the process, you'll receive a confirmation message.
 
+#### Forcing Sync to run
+
+Syncing your translation will update your local files with new translations for Locale and upload new translations to Locale.
+To keep you informed and in control with everything, you will be prompted for a confirmation before the command is executed. To
+force the command to run without a prompt, use the `--force` flag:
+
+```bash
+php artisan locale:sync --force
+```
+
+#### Purge unused translations
+
+By default, nothing is deleted from Locale. If you delete translation keys from your local code and sync, translations will
+still be available from Locale. This is useful if you are working with multiple branches or some big new features. 
+
+However, sometimes you really need to delete old and unused translation keys from Locale. To do that, use the `--purge` flag:
+
+```bash
+php artisan locale:sync --purge
+```
+
+> **Warning**
+> All keys that are not present in the current local branch will be permanently deleted.
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

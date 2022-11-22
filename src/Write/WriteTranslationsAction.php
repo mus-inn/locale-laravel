@@ -17,9 +17,9 @@ class WriteTranslationsAction
         $this->writePhpTranslationsAction = $writePhpTranslationsAction;
     }
 
-    public function __invoke(ApiTranslationsDto $apiTranslationsDto, string $sourceLocale): void
+    public function __invoke(ApiTranslationsDto $apiTranslationsDto): void
     {
         ($this->writeJsonTranslationsAction)($apiTranslationsDto->locale, $apiTranslationsDto->jsonData);
-        ($this->writePhpTranslationsAction)($apiTranslationsDto->locale, $apiTranslationsDto->phpData, $sourceLocale);
+        ($this->writePhpTranslationsAction)($apiTranslationsDto->locale, $apiTranslationsDto->phpData);
     }
 }

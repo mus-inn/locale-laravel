@@ -3,7 +3,7 @@
 namespace UseLocale\LocaleLaravel\Support;
 
 use Illuminate\Filesystem\Filesystem;
-use UseLocale\LocaleLaravel\DTOs\ApiTranslationsDto;
+use Illuminate\Support\Collection;
 
 class MetadataManager
 {
@@ -36,13 +36,13 @@ class MetadataManager
         );
     }
 
-    public function updateSnapshot(ApiTranslationsDto $apiTranslationsDto): void
+    public function updateSnapshot(Collection $apiTranslationsDtoCollection): void
     {
         $this->filesystem->ensureDirectoryExists($this->getMetaDataFilePath());
 
         $this->filesystem->put(
             $this->getMetaDataFilePath('snapshot'),
-            json_encode($apiTranslationsDto)
+            json_encode($apiTranslationsDtoCollection)
         );
     }
 

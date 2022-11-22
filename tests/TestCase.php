@@ -17,6 +17,7 @@ class TestCase extends Orchestra
 
         $filesystem->deleteDirectory(lang_path());
         $filesystem->copyDirectory(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'lang', lang_path());
+        $filesystem->copyDirectory(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'views', base_path('resources/views'));
     }
 
     protected function getPackageProviders($app)
