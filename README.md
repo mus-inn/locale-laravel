@@ -1,8 +1,8 @@
 # [Locale](https://uselocale.com): The Laravel localization tool
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/uselocale/locale-laravel.svg?style=flat-square)](https://packagist.org/packages/uselocale/locale-laravel)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/uselocale/locale-laravel/run-tests?label=tests)](https://github.com/uselocale/locale-laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/uselocale/locale-laravel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/uselocale/locale-laravel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/uselocale/locale-laravel/run-tests.yml?label=tests)](https://github.com/uselocale/locale-laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/uselocale/locale-laravel/php-cs-fixer.yml?label=code%20style)](https://github.com/uselocale/locale-laravel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/uselocale/locale-laravel.svg?style=flat-square)](https://packagist.org/packages/uselocale/locale-laravel)
 
 [Locale](https://uselocale.com) is the first localization platform specifically built for Laravel. Forget the old-fashioned email exchanges between teams and translators that always slow down project development, manage translations with our admin panel and smoothly synchronize the files with your project using our simple package commands.
